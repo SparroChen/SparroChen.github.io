@@ -201,35 +201,30 @@
     <script src="js/scroll-gallery.js"></script>
 
     <div class="container">
-        <!-- Upcoming Section -->
         <section id="upcoming" class="upcoming">
             Upcoming: RCA Degree Show 2026. <br>
             A sonic and material exploration of entropy.
             <span>Summer 2026, Battersea Campus</span>
         </section>
 
-        <!-- Works Section Placeholder -->
         <section id="works">
             <h2 style="font-size: 1rem; text-transform: uppercase; border-bottom: 1px solid #111; padding-bottom: 0.5rem; margin-bottom: 2rem;">Selected Works</h2>
             <div class="grid">
-                <!-- Placeholder for Brass Painting -->
-                <a href="works/untitled-brass-surface/" class="project-card project-card--brass">
+                <a href="works/untitled-brass-surface/" class="project-card">
                     <img class="project-card__cover" src="images/scroll-01.png" alt="">
                     <div class="project-card__caption">
                         <span class="project-title">Acid Drifted—Brass Surface</span>
                         <span class="project-meta">Oil &amp; chemical reaction on brass · 8 works</span>
                     </div>
                 </a>
-                <!-- Placeholder for Sonic/Video -->
                 <a href="#" class="project-card">
-                    <div>
+                    <div class="project-card__caption">
                         <span class="project-title">Modular Live Set</span>
                         <span class="project-meta">Octatrack / Eurorack, Video Documentation</span>
                     </div>
                 </a>
-                 <!-- Placeholder for Canvas -->
-                 <a href="#" class="project-card">
-                    <div>
+                <a href="#" class="project-card">
+                    <div class="project-card__caption">
                         <span class="project-title">Canvas Series</span>
                         <span class="project-meta">Oil on canvas</span>
                     </div>
@@ -238,7 +233,6 @@
         </section>
     </div>
 
-    <!-- Local preview: auto-reload when index.html changes (localhost only) -->
     <script>
     (function () {
         if (!/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return;
