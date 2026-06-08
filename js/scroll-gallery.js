@@ -6,7 +6,7 @@
 
     var offset = 0;
     var loopWidth = 0;
-        var durationMs = 120000;
+        var durationMs = 225000;
     var resumeDelayMs = 1000;
 
     var dragging = false;
