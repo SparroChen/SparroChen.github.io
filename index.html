@@ -2,28 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Sparro Chen | Contemporary Art Practice</title>
     <style>
         :root {
             --bg-color: #fdfdfd;
             --text-color: #111111;
             --muted-color: #888888;
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-right: env(safe-area-inset-right, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-left: env(safe-area-inset-left, 0px);
         }
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 0 0 var(--safe-bottom);
             line-height: 1.6;
         }
         header {
-            padding: 2rem 5%;
+            padding: calc(2rem + var(--safe-top)) max(5%, var(--safe-right)) 2rem max(5%, var(--safe-left));
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem 2rem;
             border-bottom: 1px solid #eeeeee;
+        }
+        .header__brand {
+            min-width: 0;
         }
         h1 {
             font-size: 1.2rem;
@@ -31,6 +40,17 @@
             letter-spacing: 1px;
             margin: 0;
         }
+        .header__contact {
+            margin: 0.45rem 0 0;
+            font-size: 0.75rem;
+            letter-spacing: 0.02em;
+        }
+        .header__contact a {
+            color: var(--muted-color);
+            text-decoration: none;
+            margin-right: 1.25rem;
+        }
+        .header__contact a:hover { color: var(--text-color); }
         nav a {
             color: var(--muted-color);
             text-decoration: none;
@@ -41,18 +61,138 @@
             transition: color 0.3s ease;
         }
         nav a:hover { color: var(--text-color); }
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: stretch;
+                padding: calc(1.35rem + var(--safe-top)) max(5%, var(--safe-right)) 1.15rem max(5%, var(--safe-left));
+                gap: 0;
+            }
+            .header__brand {
+                width: 100%;
+                padding-bottom: 1rem;
+            }
+            h1 {
+                font-size: clamp(1.65rem, 7vw, 2rem);
+                font-weight: 600;
+                letter-spacing: 0.14em;
+                line-height: 1.15;
+            }
+            .header__contact {
+                margin-top: 0.75rem;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.35rem;
+                font-size: 0.82rem;
+                line-height: 1.45;
+            }
+            .header__contact a {
+                margin-right: 0;
+            }
+            nav {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem 1.1rem;
+                padding-top: 1rem;
+                border-top: 1px solid #eeeeee;
+            }
+            nav a {
+                margin-left: 0;
+                font-size: 0.78rem;
+                letter-spacing: 0.08em;
+            }
+            .container {
+                padding-left: max(5%, var(--safe-left));
+                padding-right: max(5%, var(--safe-right));
+                padding-bottom: calc(4rem + var(--safe-bottom));
+            }
+        }
         .hero-feature {
+            position: relative;
             width: 100%;
             margin: 0;
             padding: 0;
             border-bottom: 1px solid #eeeeee;
             overflow: hidden;
-            aspect-ratio: 1024 / 508.5;
+            aspect-ratio: 3 / 4;
+            max-height: min(78vh, 820px);
+            background: var(--bg-color);
         }
-        .hero-feature img {
-            display: block;
+        .hero-feature__slide {
+            position: absolute;
+            inset: 0;
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            opacity: 0;
+            animation: heroCrossfade1 15s linear infinite;
+        }
+        .hero-feature__slide:nth-child(2) {
+            animation-name: heroCrossfade2;
+        }
+        @keyframes heroCrossfade1 {
+            0%, 40% { opacity: 1; }
+            50% { opacity: 0; }
+            90%, 100% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes heroCrossfade2 {
+            0%, 40% { opacity: 0; }
+            50% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        @media (min-width: 769px) {
+            .hero-feature {
+                aspect-ratio: 819 / 1024;
+                max-height: min(90vh, 1024px);
+                width: min(100%, calc(min(90vh, 1024px) * 819 / 1024));
+                margin-inline: auto;
+            }
+            .hero-feature__slide {
+                object-fit: contain;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .hero-feature__slide {
+                animation: none;
+                opacity: 0;
+            }
+            .hero-feature__slide:first-child {
+                opacity: 1;
+            }
+        }
+        .hero-intro {
+            text-align: center;
+            max-width: 36rem;
+            margin: 0 auto;
+            padding: 2.75rem max(5%, var(--safe-left)) 2.5rem max(5%, var(--safe-right));
+            border-bottom: 1px solid #eeeeee;
+        }
+        .hero-intro__lead {
+            margin: 0 0 1.35rem;
+            font-size: clamp(1.02rem, 2.4vw, 1.2rem);
+            font-weight: 500;
+            line-height: 1.65;
+            letter-spacing: 0.012em;
+            color: var(--text-color);
+        }
+        .hero-intro__text {
+            margin: 0;
+            font-size: clamp(0.92rem, 2.1vw, 1.02rem);
+            font-weight: 400;
+            line-height: 1.8;
+            letter-spacing: 0.018em;
+            color: var(--muted-color);
+        }
+        @media (max-width: 768px) {
+            .hero-intro {
+                padding-top: 2.25rem;
+                padding-bottom: 2rem;
+            }
         }
         .scroll-gallery {
             overflow: hidden;
@@ -121,12 +261,69 @@
             margin: 0 auto;
         }
         .upcoming {
-            font-size: 2rem;
-            font-weight: 400;
             margin-bottom: 4rem;
             line-height: 1.4;
         }
-        .upcoming span { color: var(--muted-color); font-size: 1rem; display: block; margin-top: 1rem; text-transform: uppercase;}
+        .upcoming__item + .upcoming__item {
+            margin-top: 2.75rem;
+        }
+        .upcoming__body {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 1.75rem 2.5rem;
+            align-items: stretch;
+        }
+        .upcoming__info {
+            min-width: 0;
+        }
+        .upcoming__figure {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin: 0;
+            align-self: stretch;
+            height: 100%;
+        }
+        .upcoming__visual {
+            display: block;
+            height: 100%;
+            width: auto;
+            max-width: clamp(96px, 16vw, 188px);
+            object-fit: contain;
+            object-position: center;
+        }
+        .upcoming__title {
+            font-size: 2rem;
+            font-weight: 400;
+            margin: 0;
+        }
+        .upcoming__date {
+            color: var(--muted-color);
+            font-size: 1rem;
+            display: block;
+            margin-top: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .upcoming__venue {
+            color: var(--muted-color);
+            font-size: 0.95rem;
+            display: block;
+            margin-top: 0.4rem;
+            line-height: 1.55;
+            max-width: 32rem;
+        }
+        @media (max-width: 768px) {
+            .upcoming__body {
+                gap: 1rem 1.25rem;
+            }
+            .upcoming__title {
+                font-size: clamp(1.35rem, 5.5vw, 2rem);
+            }
+            .upcoming__visual {
+                max-width: clamp(72px, 22vw, 112px);
+            }
+        }
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -160,7 +357,13 @@
 <body>
 
     <header>
-        <h1>SPARRO CHEN</h1>
+        <div class="header__brand">
+            <h1>SPARRO CHEN</h1>
+            <p class="header__contact" id="info">
+                <a href="mailto:sparro.zh.chen@gmail.com">sparro.zh.chen@gmail.com</a>
+                <a href="https://www.instagram.com/sparrookc0/" rel="noopener noreferrer">@sparrookc0</a>
+            </p>
+        </div>
         <nav>
             <a href="#upcoming">Upcoming</a>
             <a href="#works">Works</a>
@@ -169,13 +372,20 @@
         </nav>
     </header>
 
-    <section class="hero-feature" aria-label="Live performance">
-        <img src="images/hero-live-set.png" alt="Artist with modular synthesizer and electronic instruments in a dimly lit studio">
+    <section class="hero-feature" aria-label="Featured portraits">
+        <img class="hero-feature__slide" src="images/hero-rca2026.png" alt="Sparro Chen, RCA2026 degree show at Battersea">
+        <img class="hero-feature__slide" src="images/hero-studio-01.png" alt="Sparro Chen in studio with modular synthesizer and paintings">
+    </section>
+
+    <section class="hero-intro" aria-label="Artist statement">
+        <p class="hero-intro__lead">Zhenghao Chen (Sparro) is an interdisciplinary artist working across chemically altered oil paintings on brass, modular synthesis, and sonic performance.</p>
+        <p class="hero-intro__text">Through corrosion, resonance, and material feedback, his work explores how perception is shaped by technological systems, ritual participation, and more-than-human forces. Combining sound, vibration, and self-generated mythologies, Chen creates evolving environments where paintings become resonant bodies and performance becomes a means of recalibrating perception within an increasingly synthetic world.</p>
     </section>
 
     <section class="scroll-gallery" aria-label="Featured works">
         <div class="scroll-gallery__track">
             <div class="scroll-gallery__group">
+                <a class="scroll-gallery__link" href="works/synthetic-pantheon/01.html"><img src="images/synthetic-pantheon-series.png" alt="Synthetic Pantheon Series"></a>
                 <a class="scroll-gallery__link" href="works/untitled-brass-surface/01.html"><img src="images/scroll-01.png" alt="Acid Drifted"></a>
                 <a class="scroll-gallery__link" href="works/untitled-brass-surface/02.html"><img src="images/scroll-02.png" alt="Acid Drifted II"></a>
                 <a class="scroll-gallery__link" href="works/untitled-brass-surface/17.html"><img src="images/acid-17.png" alt="Depressive Hedonia II"></a>
@@ -195,6 +405,7 @@
                 <a class="scroll-gallery__link" href="works/untitled-brass-surface/16.html"><img src="images/acid-16.png" alt="Guardian"></a>
             </div>
             <div class="scroll-gallery__group" aria-hidden="true">
+                <a class="scroll-gallery__link" href="works/synthetic-pantheon/01.html" tabindex="-1"><img src="images/synthetic-pantheon-series.png" alt=""></a>
                 <a class="scroll-gallery__link" href="works/untitled-brass-surface/01.html" tabindex="-1"><img src="images/scroll-01.png" alt=""></a>
                 <a class="scroll-gallery__link" href="works/untitled-brass-surface/02.html" tabindex="-1"><img src="images/scroll-02.png" alt=""></a>
                 <a class="scroll-gallery__link" href="works/untitled-brass-surface/17.html" tabindex="-1"><img src="images/acid-17.png" alt=""></a>
@@ -220,14 +431,42 @@
 
     <div class="container">
         <section id="upcoming" class="upcoming">
-            Upcoming: RCA Degree Show 2026. <br>
-            A sonic and material exploration of entropy.
-            <span>Summer 2026, Battersea Campus</span>
+            <article class="upcoming__item">
+                <div class="upcoming__body">
+                    <div class="upcoming__info">
+                        <p class="upcoming__title">Upcoming: RCA Degree Show 2026</p>
+                        <span class="upcoming__date">18–21 June</span>
+                        <span class="upcoming__venue">Contemporary Art Practice Space, 2nd floor, Studio Building, RCA Battersea Campus, London</span>
+                    </div>
+                    <figure class="upcoming__figure">
+                        <img class="upcoming__visual" src="images/upcoming-rca2026.png" alt="RCA2026 degree show poster">
+                    </figure>
+                </div>
+            </article>
+            <article class="upcoming__item">
+                <div class="upcoming__body">
+                    <div class="upcoming__info">
+                        <p class="upcoming__title">RCA NOISE X TATE MODERN</p>
+                        <span class="upcoming__date">26 June, 6–9:30 pm</span>
+                        <span class="upcoming__venue">Blavatnik Building, Tate Modern</span>
+                    </div>
+                    <figure class="upcoming__figure">
+                        <img class="upcoming__visual" src="images/upcoming-noise.png" alt="RCA NOISE">
+                    </figure>
+                </div>
+            </article>
         </section>
 
         <section id="works">
             <h2 style="font-size: 1rem; text-transform: uppercase; border-bottom: 1px solid #111; padding-bottom: 0.5rem; margin-bottom: 2rem;">Selected Works</h2>
             <div class="grid">
+                <a href="works/synthetic-pantheon/" class="project-card">
+                    <img class="project-card__cover" src="images/synthetic-pantheon-series.png" alt="">
+                    <div class="project-card__caption">
+                        <span class="project-title">Synthetic Pantheon</span>
+                        <span class="project-meta">RCA Degree Show · Oil &amp; chemical reaction on brass, modular synthesizer · 1 work</span>
+                    </div>
+                </a>
                 <a href="works/untitled-brass-surface/" class="project-card">
                     <img class="project-card__cover" src="images/scroll-01.png" alt="">
                     <div class="project-card__caption">
