@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Sketchbook — Sparro Chen</title>
+    <link rel="stylesheet" href="../../css/curatorial-series.css">
+</head>
+<body>
+    <header class="masthead">
+        <a class="brand" href="../../index.html">Sparro Chen</a>
+        <div class="modes">
+            <button class="active" data-mode="field">Constellation</button>
+            <button data-mode="index">Index</button>
+        </div>
+    </header>
+    <main>
+        <section class="intro">
+            <h1>Sketch<br>book</h1>
+            <div class="intro__side">
+                <p class="kicker">Studies from Observation · 2026</p>
+                <p class="statement">A shifting archive of observed bodies, passing faces and provisional compositions. Pencil, charcoal and pastel move between direct record and image-making: lines are allowed to remain open, carrying the speed, hesitation and intimacy of the encounter.</p>
+            </div>
+        </section>
+        <section>
+            <div class="controls"><div class="filters"></div><span class="count"></span></div>
+            <div class="field" id="field"></div>
+        </section>
+    </main>
+    <dialog id="reader">
+        <div class="reader">
+            <div class="reader__visual"><img alt=""></div>
+            <aside class="reader__info">
+                <button class="close" aria-label="Close">×</button>
+                <div class="counter"></div><h2></h2><p class="meta"></p>
+                <div class="nav"><button data-nav="previous">← Previous</button><button data-nav="next">Next →</button></div>
+            </aside>
+        </div>
+    </dialog>
+    <script>
+    window.seriesWorks = [
+        {image:"../../images/sketchbook/sketch-57.jpg",title:"New Study 06",meta:"Details forthcoming",year:"2026",group:"New Upload",span:5,lift:10},
+        {image:"../../images/sketchbook/sketch-67.jpg",title:"New Study 16",meta:"Details forthcoming",year:"2026",group:"New Upload",span:6,lift:14},
+        {image:"../../images/sketchbook/sketch-53.jpg",title:"New Study 02",meta:"Details forthcoming",year:"2026",group:"New Upload",span:4,lift:13},
+        {image:"../../images/sketchbook/sketch-54.jpg",title:"since you came手稿",meta:"Details forthcoming",year:"2026",group:"New Upload",span:5,lift:2},
+        {image:"../../images/sketchbook/sketch-55.jpg",title:"New Study 04",meta:"Details forthcoming",year:"2026",group:"New Upload",span:4,lift:15},
+        {image:"../../images/sketchbook/sketch-58.jpg",title:"New Study 07",meta:"Details forthcoming",year:"2026",group:"New Upload",span:4,lift:0},
+        {image:"../../images/sketchbook/sketch-59.jpg",title:"New Study 08",meta:"Details forthcoming",year:"2026",group:"New Upload",span:5,lift:14},
+        {image:"../../images/sketchbook/sketch-60.jpg",title:"New Study 09",meta:"Details forthcoming",year:"2026",group:"New Upload",span:4,lift:2},
+        {image:"../../images/sketchbook/sketch-61.jpg",title:"New Study 10",meta:"Details forthcoming",year:"2026",group:"New Upload",span:6,lift:15},
+        {image:"../../images/sketchbook/sketch-56.jpg",title:"New Study 05",meta:"Details forthcoming",year:"2026",group:"New Upload",span:4,lift:0},
+        {image:"../../images/sketchbook/sketch-52.jpg",title:"New Study 01",meta:"Details forthcoming",year:"2026",group:"New Upload",span:5,lift:0},
+        {image:"../../images/sketchbook/sketch-62.jpg",title:"New Study 11",meta:"Details forthcoming",year:"2026",group:"New Upload",span:5,lift:0},
+        {image:"../../images/sketchbook/sketch-63.jpg",title:"New Study 12",meta:"Details forthcoming",year:"2026",group:"New Upload",span:4,lift:12},
+        {image:"../../images/sketchbook/sketch-65.jpg",title:"New Study 14",meta:"Details forthcoming",year:"2026",group:"New Upload",span:5,lift:13},
+        {image:"../../images/sketchbook/sketch-66.jpg",title:"New Study 15",meta:"Details forthcoming",year:"2026",group:"New Upload",span:4,lift:0},
+        {image:"../../images/sketchbook/sketch-49.jpg",title:"Synthetic Pantheon Study 15",meta:"Pencil, charcoal and pastel on paper · 2026 · Private collection",year:"2026",group:"Synthetic Pantheon",collected:true,span:5,lift:0},
+        {image:"../../images/sketchbook/sketch-50.jpg",title:"Synthetic Pantheon Study 16",meta:"Pencil, charcoal and pastel on paper · 2026 · Private collection",year:"2026",group:"Synthetic Pantheon",collected:true,span:4,lift:13},
+        {image:"../../images/sketchbook/sketch-51.jpg",title:"Synthetic Pantheon Study 17",meta:"Pencil, charcoal and pastel on paper · 2026 · Private collection",year:"2026",group:"Synthetic Pantheon",collected:true,span:5,lift:2},
+        {image:"../../images/sketchbook/sketch-35.jpg",title:"Synthetic Pantheon Study 01",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"Synthetic Pantheon",span:5,lift:0},
+        {image:"../../images/sketchbook/sketch-36.jpg",title:"Synthetic Pantheon Study 02",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"Synthetic Pantheon",span:4,lift:13},
+        {image:"../../images/sketchbook/sketch-37.jpg",title:"Synthetic Pantheon Study 03",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"Synthetic Pantheon",span:5,lift:2},
+        {image:"../../images/sketchbook/sketch-38.jpg",title:"Synthetic Pantheon Study 04",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"Synthetic Pantheon",span:4,lift:15},
+        {image:"../../images/sketchbook/sketch-39.jpg",title:"Synthetic Pantheon Study 05",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"Synthetic Pantheon",span:4,lift:0},
+        {image:"../../images/sketchbook/sketch-40.jpg",title:"Synthetic Pantheon Study 06",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"Synthetic Pantheon",span:5,lift:10},
+        {image:"../../images/sketchbook/sketch-41.jpg",title:"Synthetic Pantheon Study 07",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"Synthetic Pantheon",span:4,lift:0},
+        {image:"../../images/sketchbook/sketch-42.jpg",title:"Synthetic Pantheon Study 08",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"Synthetic Pantheon",span:5,lift:14},
+        {image:"../../images/sketchbook/sketch-43.jpg",title:"Synthetic Pantheon Study 09",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"Synthetic Pantheon",span:4,lift:2},
+        {image:"../../images/sketchbook/sketch-44.jpg",title:"Synthetic Pantheon Study 10",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"Synthetic Pantheon",span:6,lift:15},
+        {image:"../../images/sketchbook/sketch-45.jpg",title:"Synthetic Pantheon Study 11",meta:"Watercolour and pencil on paper · 2026",year:"2026",group:"Synthetic Pantheon",span:5,lift:0},
+        {image:"../../images/sketchbook/sketch-46.jpg",title:"Synthetic Pantheon Study 12",meta:"Watercolour and pencil on paper · 2026",year:"2026",group:"Synthetic Pantheon",span:4,lift:12},
+        {image:"../../images/sketchbook/sketch-47.jpg",title:"Synthetic Pantheon Study 13",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"Synthetic Pantheon",span:4,lift:1},
+        {image:"../../images/sketchbook/sketch-48.jpg",title:"Synthetic Pantheon Study 14",meta:"Watercolour and pencil on paper · 2026",year:"2026",group:"Synthetic Pantheon",span:5,lift:13},
+        {image:"../../images/sketchbook/sketch-16.jpg",title:"Sketchbook Study 01",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:5,lift:0},
+        {image:"../../images/sketchbook/sketch-18.jpg",title:"Sketchbook Study 03",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:5,lift:2},
+        {image:"../../images/sketchbook/sketch-19.jpg",title:"Sketchbook Study 04",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:4,lift:15},
+        {image:"../../images/sketchbook/sketch-20.jpg",title:"Sketchbook Study 05",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:4,lift:0},
+        {image:"../../images/sketchbook/sketch-21.jpg",title:"Sketchbook Study 06",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:7,lift:10},
+        {image:"../../images/sketchbook/sketch-22.jpg",title:"Sketchbook Study 07",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:5,lift:0},
+        {image:"../../images/sketchbook/sketch-23.jpg",title:"Sketchbook Study 08",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:4,lift:14},
+        {image:"../../images/sketchbook/sketch-24.jpg",title:"Sketchbook Study 09",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:6,lift:2},
+        {image:"../../images/sketchbook/sketch-25.jpg",title:"Sketchbook Study 10",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:4,lift:15},
+        {image:"../../images/sketchbook/sketch-26.jpg",title:"Sketchbook Study 11",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:4,lift:0},
+        {image:"../../images/sketchbook/sketch-27.jpg",title:"Sketchbook Study 12",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:5,lift:12},
+        {image:"../../images/sketchbook/sketch-28.jpg",title:"Sketchbook Study 13",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:4,lift:0},
+        {image:"../../images/sketchbook/sketch-29.jpg",title:"Sketchbook Study 14",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:5,lift:13},
+        {image:"../../images/sketchbook/sketch-30.jpg",title:"Sketchbook Study 15",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:4,lift:1},
+        {image:"../../images/sketchbook/sketch-31.jpg",title:"Sketchbook Study 16",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:6,lift:14},
+        {image:"../../images/sketchbook/sketch-32.jpg",title:"Sketchbook Study 17",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:4,lift:0},
+        {image:"../../images/sketchbook/sketch-33.jpg",title:"Sketchbook Study 18",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:4,lift:11},
+        {image:"../../images/sketchbook/sketch-34.jpg",title:"Sketchbook Study 19",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:6,lift:1},
+        {image:"../../images/sketchbook/sketch-01.jpg",title:"Sketchbook Study 20",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:5,lift:13},
+        {image:"../../images/sketchbook/sketch-02.jpg",title:"Sketchbook Study 21",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:4,lift:0},
+        {image:"../../images/sketchbook/sketch-03.jpg",title:"Sketchbook Study 22",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:3,lift:15},
+        {image:"../../images/sketchbook/sketch-04.jpg",title:"Sketchbook Study 23",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:4,lift:2},
+        {image:"../../images/sketchbook/sketch-05.jpg",title:"Sketchbook Study 24",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:7,lift:12},
+        {image:"../../images/sketchbook/sketch-06.jpg",title:"Sketchbook Study 25",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:4,lift:0},
+        {image:"../../images/sketchbook/sketch-07.jpg",title:"Sketchbook Study 26",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:5,lift:13},
+        {image:"../../images/sketchbook/sketch-08.jpg",title:"Sketchbook Study 27",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:4,lift:1},
+        {image:"../../images/sketchbook/sketch-09.jpg",title:"Sketchbook Study 28",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:5,lift:15},
+        {image:"../../images/sketchbook/sketch-10.jpg",title:"Sketchbook Study 29",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:4,lift:0},
+        {image:"../../images/sketchbook/sketch-11.jpg",title:"Sketchbook Study 30",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:3,lift:11},
+        {image:"../../images/sketchbook/sketch-12.jpg",title:"Sketchbook Study 31",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:5,lift:2},
+        {image:"../../images/sketchbook/sketch-13.jpg",title:"Sketchbook Study 32",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:4,lift:14},
+        {image:"../../images/sketchbook/sketch-14.jpg",title:"Sketchbook Study 33",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:5,lift:0},
+        {image:"../../images/sketchbook/sketch-15.jpg",title:"Sketchbook Study 34",meta:"Pencil, charcoal and pastel on paper · 2026",year:"2026",group:"2026",span:4,lift:12}
+    ];
+    </script>
+    <script src="../../js/curatorial-series.js"></script>
+</body>
+</html>

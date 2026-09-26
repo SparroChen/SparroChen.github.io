@@ -128,21 +128,27 @@
             object-fit: cover;
             object-position: center center;
             opacity: 0;
-            animation: heroCrossfade1 15s linear infinite;
+            animation: heroCrossfade1 18s linear infinite;
         }
         .hero-feature__slide:nth-child(2) {
             animation-name: heroCrossfade2;
         }
+        .hero-feature__slide:nth-child(3) {
+            animation-name: heroCrossfade3;
+        }
         @keyframes heroCrossfade1 {
-            0%, 40% { opacity: 1; }
-            50% { opacity: 0; }
-            90%, 100% { opacity: 0; }
+            0%, 27% { opacity: 1; }
+            33%, 94% { opacity: 0; }
             100% { opacity: 1; }
         }
         @keyframes heroCrossfade2 {
-            0%, 40% { opacity: 0; }
-            50% { opacity: 1; }
-            90% { opacity: 1; }
+            0%, 27% { opacity: 0; }
+            33%, 60% { opacity: 1; }
+            66%, 100% { opacity: 0; }
+        }
+        @keyframes heroCrossfade3 {
+            0%, 60% { opacity: 0; }
+            66%, 94% { opacity: 1; }
             100% { opacity: 0; }
         }
         @media (min-width: 769px) {
@@ -313,6 +319,36 @@
             line-height: 1.55;
             max-width: 32rem;
         }
+        .upcoming__item[hidden] {
+            display: none;
+        }
+        .upcoming__more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin-top: 2.75rem;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: var(--text-color);
+            font: inherit;
+            font-size: 0.78rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+        .upcoming__more::after {
+            content: "\2193";
+            font-size: 1rem;
+            transition: transform 180ms ease;
+        }
+        .upcoming__more[aria-expanded="true"]::after {
+            transform: rotate(180deg);
+        }
+        .upcoming__more:hover,
+        .upcoming__more:focus-visible {
+            opacity: 0.55;
+        }
         @media (max-width: 768px) {
             .upcoming__body {
                 gap: 1rem 1.25rem;
@@ -367,12 +403,14 @@
         <nav>
             <a href="#upcoming">Upcoming</a>
             <a href="#works">Works</a>
+            <a href="works/sketchbook/">Sketchbook</a>
             <a href="#exhibitions">Exhibitions</a>
             <a href="#info">Info</a>
         </nav>
     </header>
 
     <section class="hero-feature" aria-label="Featured portraits">
+        <img class="hero-feature__slide" src="images/hero-artevol-2026.jpg" alt="ArtEvol 2026: A View from Everywhere exhibition poster featuring Sparro Chen's work">
         <img class="hero-feature__slide" src="images/hero-rca2026.png" alt="Sparro Chen, RCA2026 degree show at Battersea">
         <img class="hero-feature__slide" src="images/hero-studio-01.png" alt="Sparro Chen in studio with modular synthesizer and paintings">
     </section>
@@ -386,6 +424,9 @@
         <div class="scroll-gallery__track">
             <div class="scroll-gallery__group">
                 <a class="scroll-gallery__link" href="works/synthetic-pantheon/01.html"><img src="images/synthetic-pantheon-series.png" alt="Synthetic Pantheon Series"></a>
+                <a class="scroll-gallery__link" href="works/untitled-brass-surface/20.html"><img src="images/acid-20.jpg" alt="Daylight Constellation"></a>
+                <a class="scroll-gallery__link" href="works/untitled-brass-surface/19.html"><img src="images/acid-19.jpg" alt="Since You Came"></a>
+                <a class="scroll-gallery__link" href="works/untitled-brass-surface/18.html"><img src="images/acid-18.jpg" alt="The Uncooled Child"></a>
                 <a class="scroll-gallery__link" href="works/untitled-brass-surface/01.html"><img src="images/scroll-01.png" alt="Acid Drifted"></a>
                 <a class="scroll-gallery__link" href="works/untitled-brass-surface/02.html"><img src="images/scroll-02.png" alt="Acid Drifted II"></a>
                 <a class="scroll-gallery__link" href="works/untitled-brass-surface/17.html"><img src="images/acid-17.png" alt="Depressive Hedonia II"></a>
@@ -406,6 +447,9 @@
             </div>
             <div class="scroll-gallery__group" aria-hidden="true">
                 <a class="scroll-gallery__link" href="works/synthetic-pantheon/01.html" tabindex="-1"><img src="images/synthetic-pantheon-series.png" alt=""></a>
+                <a class="scroll-gallery__link" href="works/untitled-brass-surface/20.html" tabindex="-1"><img src="images/acid-20.jpg" alt=""></a>
+                <a class="scroll-gallery__link" href="works/untitled-brass-surface/19.html" tabindex="-1"><img src="images/acid-19.jpg" alt=""></a>
+                <a class="scroll-gallery__link" href="works/untitled-brass-surface/18.html" tabindex="-1"><img src="images/acid-18.jpg" alt=""></a>
                 <a class="scroll-gallery__link" href="works/untitled-brass-surface/01.html" tabindex="-1"><img src="images/scroll-01.png" alt=""></a>
                 <a class="scroll-gallery__link" href="works/untitled-brass-surface/02.html" tabindex="-1"><img src="images/scroll-02.png" alt=""></a>
                 <a class="scroll-gallery__link" href="works/untitled-brass-surface/17.html" tabindex="-1"><img src="images/acid-17.png" alt=""></a>
@@ -431,19 +475,31 @@
 
     <div class="container">
         <section id="upcoming" class="upcoming">
-            <article class="upcoming__item">
+            <article class="upcoming__item" data-start="2026-10-03">
                 <div class="upcoming__body">
                     <div class="upcoming__info">
-                        <p class="upcoming__title">Upcoming: RCA Degree Show 2026</p>
-                        <span class="upcoming__date">18–21 June</span>
-                        <span class="upcoming__venue">Contemporary Art Practice Space, 2nd floor, Studio Building, RCA Battersea Campus, London</span>
+                        <p class="upcoming__title">ArtEvol 2026: A VIEW FROM EVERYWHERE — Group Exhibition</p>
+                        <span class="upcoming__date">3–11 October 2026</span>
+                        <span class="upcoming__venue">Saatchi Gallery, London</span>
                     </div>
                     <figure class="upcoming__figure">
-                        <img class="upcoming__visual" src="images/upcoming-rca2026.png" alt="RCA2026 degree show poster">
+                        <img class="upcoming__visual" src="images/upcoming-artevol-2026.png" alt="ArtEvol 2026: A View from Everywhere exhibition poster">
                     </figure>
                 </div>
             </article>
-            <article class="upcoming__item">
+            <article class="upcoming__item" data-start="2026-09-20">
+                <div class="upcoming__body">
+                    <div class="upcoming__info">
+                        <p class="upcoming__title">IN THE FOREST — Group Exhibition</p>
+                        <span class="upcoming__date">20 September–20 October 2026 · Opening 20 September, 3 pm</span>
+                        <span class="upcoming__venue">Chun Art Museum, 2nd Floor, No. 655 Fuzhou Road, Huangpu District, Shanghai</span>
+                    </div>
+                    <figure class="upcoming__figure">
+                        <img class="upcoming__visual" src="images/upcoming-in-the-forest-2026.jpg" alt="IN THE FOREST group exhibition poster">
+                    </figure>
+                </div>
+            </article>
+            <article class="upcoming__item" data-start="2026-06-26">
                 <div class="upcoming__body">
                     <div class="upcoming__info">
                         <p class="upcoming__title">RCA NOISE X TATE MODERN</p>
@@ -455,6 +511,19 @@
                     </figure>
                 </div>
             </article>
+            <article class="upcoming__item" data-start="2026-06-18">
+                <div class="upcoming__body">
+                    <div class="upcoming__info">
+                        <p class="upcoming__title">Upcoming: RCA Degree Show 2026</p>
+                        <span class="upcoming__date">18–21 June</span>
+                        <span class="upcoming__venue">Contemporary Art Practice Space, 2nd floor, Studio Building, RCA Battersea Campus, London</span>
+                    </div>
+                    <figure class="upcoming__figure">
+                        <img class="upcoming__visual" src="images/upcoming-rca2026.png" alt="RCA2026 degree show poster">
+                    </figure>
+                </div>
+            </article>
+            <button class="upcoming__more" type="button" aria-expanded="false">More</button>
         </section>
 
         <section id="works">
@@ -467,18 +536,11 @@
                         <span class="project-meta">RCA Degree Show · Oil &amp; chemical reaction on brass, modular synthesizer · 1 work</span>
                     </div>
                 </a>
-                <a href="works/untitled-brass-surface/" class="project-card">
-                    <img class="project-card__cover" src="images/scroll-01.png" alt="">
+                <a href="works/acid-drifted-curatorial-prototype/" class="project-card">
+                    <img class="project-card__cover" src="images/acid-20.jpg" alt="Daylight Constellation / 白日见星">
                     <div class="project-card__caption">
-                        <span class="project-title">Acid Drifted—Brass Surface</span>
-                        <span class="project-meta">Oil &amp; chemical reaction on brass · 17 works</span>
-                    </div>
-                </a>
-                <a href="works/modular-live-set/" class="project-card">
-                    <img class="project-card__cover" src="images/modular-live-set-cover.png" alt="">
-                    <div class="project-card__caption">
-                        <span class="project-title">Modular Live Set</span>
-                        <span class="project-meta">Octatrack / Eurorack, video documentation · 2 videos</span>
+                        <span class="project-title">Acid Drifted</span>
+                        <span class="project-meta">Oil &amp; chemical reaction on brass · 20 works</span>
                     </div>
                 </a>
                 <a href="works/wanderlust-fairies/" class="project-card">
@@ -488,11 +550,63 @@
                         <span class="project-meta">Canvas Series · 9 works</span>
                     </div>
                 </a>
+                <a href="works/sketchbook/" class="project-card">
+                    <img class="project-card__cover" src="images/sketchbook/sketch-53.jpg" alt="Sketchbook cover study 02">
+                    <div class="project-card__caption">
+                        <span class="project-title">Sketchbook</span>
+                        <span class="project-meta">Pencil, charcoal, pastel &amp; watercolour on paper · 2026 · 65 works</span>
+                    </div>
+                </a>
+                <a href="works/modular-live-set/" class="project-card">
+                    <img class="project-card__cover" src="images/modular-live-set-cover.png" alt="">
+                    <div class="project-card__caption">
+                        <span class="project-title">Modular Live Set</span>
+                        <span class="project-meta">Octatrack / Eurorack, video documentation · 2 videos</span>
+                    </div>
+                </a>
             </div>
         </section>
     </div>
 
     <script>
+    (function () {
+        var section = document.querySelector('.upcoming');
+        if (!section) return;
+
+        var button = section.querySelector('.upcoming__more');
+        var items = Array.prototype.slice.call(section.querySelectorAll('.upcoming__item'));
+        var collapsedCount = 2;
+        var batchSize = 5;
+        var visibleCount = collapsedCount;
+
+        items.sort(function (a, b) {
+            return String(b.dataset.start).localeCompare(String(a.dataset.start));
+        }).forEach(function (item) {
+            section.insertBefore(item, button);
+        });
+
+        function render() {
+            items.forEach(function (item, index) {
+                item.hidden = index >= visibleCount;
+            });
+            var expanded = visibleCount > collapsedCount;
+            button.setAttribute('aria-expanded', String(expanded));
+            button.textContent = visibleCount >= items.length ? 'Less' : 'More';
+            button.hidden = items.length <= collapsedCount;
+        }
+
+        button.addEventListener('click', function () {
+            if (visibleCount >= items.length) {
+                visibleCount = collapsedCount;
+            } else {
+                visibleCount = Math.min(visibleCount + batchSize, items.length);
+            }
+            render();
+        });
+
+        render();
+    })();
+
     (function () {
         if (!/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return;
         var last;

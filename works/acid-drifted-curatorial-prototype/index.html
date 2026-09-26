@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Acid Drifted — Sparro Chen</title>
+    <style>
+        :root {
+            --paper: #f4f1ea;
+            --ink: #151515;
+            --muted: #77736b;
+            --line: rgba(21, 21, 21, 0.2);
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        button, a { color: inherit; font: inherit; }
+        .masthead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.1rem 3vw;
+            background: rgba(244, 241, 234, 0.9);
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(14px);
+        }
+        .masthead a { text-decoration: none; }
+        .masthead__brand {
+            font-size: 0.78rem;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+        }
+        .masthead__mode {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .text-button {
+            padding: 0;
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            opacity: 0.42;
+        }
+        .text-button.is-active, .text-button:hover { opacity: 1; }
+        .intro {
+            min-height: 68vh;
+            display: grid;
+            grid-template-columns: minmax(0, 1.6fr) minmax(250px, 0.7fr);
+            align-items: end;
+            gap: 8vw;
+            padding: 8vh 5vw 7vh;
+            border-bottom: 1px solid var(--line);
+        }
+        .intro h1 {
+            margin: 0;
+            max-width: 10ch;
+            font-size: clamp(4rem, 10vw, 9.5rem);
+            font-weight: 400;
+            letter-spacing: -0.065em;
+            line-height: 0.82;
+        }
+        .intro__side { padding-bottom: 0.8rem; }
+        .intro__kicker {
+            margin: 0 0 1.8rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+        .intro__text {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.65;
+        }
+        .archive-controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 1.5rem;
+            padding: 1.1rem 3vw;
+            border-bottom: 1px solid var(--line);
+        }
+        .filters { display: flex; flex-wrap: wrap; gap: 0.65rem 1.35rem; }
+        .filter {
+            padding: 0;
+            border: 0;
+            background: transparent;
+            font-size: 0.7rem;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            cursor: pointer;
+            opacity: 0.38;
+        }
+        .filter.is-active, .filter:hover { opacity: 1; }
+        .archive-count {
+            flex: 0 0 auto;
+            color: var(--muted);
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+        }
+        .field {
+            display: grid;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            gap: 6vw 2vw;
+            padding: 8vw 4vw 14vw;
+            overflow: hidden;
+        }
+        .sheet {
+            --span: 4;
+            --lift: 0rem;
+            grid-column: span var(--span);
+            margin-top: var(--lift);
+            border: 0;
+            padding: 0;
+            background: transparent;
+            text-align: left;
+            cursor: zoom-in;
+            transition: opacity 240ms ease, transform 280ms ease;
+        }
+        .sheet:hover { transform: translateY(-8px); }
+        .sheet[hidden] { display: none; }
+        .sheet__image-wrap {
+            position: relative;
+            overflow: hidden;
+            background: #e7e2d8;
+            box-shadow: 0 18px 45px rgba(55, 45, 30, 0.08);
+        }
+        .sheet img {
+            display: block;
+            width: 100%;
+            height: auto;
+            filter: saturate(0.92);
+            transition: transform 500ms cubic-bezier(.2,.7,.2,1), filter 300ms ease;
+        }
+        .sheet:hover img { transform: scale(1.018); filter: saturate(1); }
+        .sheet__number {
+            position: absolute;
+            top: 0.65rem;
+            left: 0.7rem;
+            color: rgba(255,255,255,0.78);
+            mix-blend-mode: difference;
+            font-size: 0.64rem;
+            letter-spacing: 0.12em;
+        }
+        .sheet__caption {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            padding-top: 0.7rem;
+            font-size: 0.72rem;
+            line-height: 1.4;
+        }
+        .sheet__caption span:last-child { color: var(--muted); }
+        body.is-index .field {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 3.5rem 1.2rem;
+            padding-top: 3rem;
+        }
+        body.is-index .sheet { grid-column: span 1; margin-top: 0; }
+        body.is-index .sheet:hover { transform: none; }
+        .reader {
+            width: 100vw;
+            height: 100dvh;
+            max-width: none;
+            max-height: none;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background: #111;
+            color: #f4f1ea;
+        }
+        .reader::backdrop { background: #111; }
+        .reader__layout {
+            height: 100%;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(260px, 24vw);
+        }
+        .reader__image-area {
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4vh 4vw;
+            background: #0d0d0d;
+        }
+        .reader__image {
+            display: block;
+            max-width: 100%;
+            max-height: 92vh;
+            object-fit: contain;
+        }
+        .reader__info {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            gap: 1rem;
+            padding: 2rem;
+            border-left: 1px solid rgba(255,255,255,0.15);
+        }
+        .reader__close {
+            position: absolute;
+            top: 1.6rem;
+            right: 1.6rem;
+            border: 0;
+            padding: 0;
+            background: transparent;
+            color: inherit;
+            font-size: 1.4rem;
+            cursor: pointer;
+        }
+        .reader__counter {
+            color: rgba(255,255,255,0.45);
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+        }
+        .reader__title {
+            margin: 0;
+            font-size: clamp(1.35rem, 2.2vw, 2.25rem);
+            font-weight: 500;
+            line-height: 1.04;
+        }
+        .reader__meta {
+            margin: 0;
+            color: rgba(255,255,255,0.58);
+            font-size: 0.8rem;
+            line-height: 1.6;
+        }
+        .reader__exhibition {
+            display: none;
+            margin: 0.25rem 0 0;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.82);
+            font-size: 0.72rem;
+            line-height: 1.65;
+            letter-spacing: 0.025em;
+        }
+        .reader__exhibition.is-visible { display: block; }
+        .reader__exhibition strong {
+            display: block;
+            margin-bottom: 0.35rem;
+            color: #f4f1ea;
+            font-size: 0.62rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .reader__tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-top: 0.6rem;
+        }
+        .reader__tag {
+            border: 1px solid rgba(255,255,255,0.22);
+            border-radius: 100px;
+            padding: 0.3rem 0.6rem;
+            color: rgba(255,255,255,0.62);
+            font-size: 0.62rem;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+        }
+        .reader__nav {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1.2rem;
+            border-top: 1px solid rgba(255,255,255,0.15);
+        }
+        .reader__nav button {
+            border: 0;
+            padding: 0;
+            background: transparent;
+            color: inherit;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+        @media (max-width: 760px) {
+            .intro { grid-template-columns: 1fr; min-height: 74vh; }
+            .intro h1 { font-size: clamp(4rem, 22vw, 7rem); }
+            .field { grid-template-columns: repeat(6, 1fr); gap: 5rem 3vw; }
+            .sheet { grid-column: span min(var(--span), 5); margin-top: 0; }
+            body.is-index .field { grid-template-columns: repeat(2, 1fr); }
+            .reader__layout { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; }
+            .reader__image-area { padding: 3.5rem 1rem 1rem; }
+            .reader__image { max-height: 65vh; }
+            .reader__info { padding: 1.25rem; border: 0; border-top: 1px solid rgba(255,255,255,0.15); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <header class="masthead">
+        <a class="masthead__brand" href="../../index.html">Sparro Chen</a>
+        <div class="masthead__mode" aria-label="View mode">
+            <button class="text-button is-active" type="button" data-mode="field">Constellation</button>
+            <button class="text-button" type="button" data-mode="index">Index</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h1>Acid<br>Drifted</h1>
+            <div class="intro__side">
+                <p class="intro__kicker">Field Notes on Matter, Bodies and Unstable Terrain</p>
+                <p class="intro__text">A provisional atlas of figures, terrains, relics and unstable surfaces. These works are arranged as fragments rather than a chronology: a field in which images gather, separate and return through shared material conditions.</p>
+            </div>
+        </section>
+
+        <section aria-label="Curatorial archive">
+            <div class="archive-controls">
+                <div class="filters" aria-label="Filter works by theme">
+                    <button class="filter is-active" type="button" data-filter="all">All fragments</button>
+                    <button class="filter" type="button" data-filter="figure">Figures</button>
+                    <button class="filter" type="button" data-filter="terrain">Terrain</button>
+                    <button class="filter" type="button" data-filter="relic">Relics</button>
+                    <button class="filter" type="button" data-filter="myth">Mythologies</button>
+                </div>
+                <span class="archive-count" aria-live="polite"></span>
+            </div>
+            <div class="field" id="field"></div>
+        </section>
+    </main>
+
+    <dialog class="reader" id="reader">
+        <div class="reader__layout">
+            <div class="reader__image-area">
+                <img class="reader__image" alt="">
+            </div>
+            <aside class="reader__info">
+                <button class="reader__close" type="button" aria-label="Close">×</button>
+                <div class="reader__counter"></div>
+                <h2 class="reader__title"></h2>
+                <p class="reader__meta"></p>
+                <p class="reader__exhibition"></p>
+                <div class="reader__tags"></div>
+                <div class="reader__nav">
+                    <button type="button" data-reader-nav="previous">← Previous</button>
+                    <button type="button" data-reader-nav="next">Next →</button>
+                </div>
+            </aside>
+        </div>
+    </dialog>
+
+    <script>
+        const works = [
+            { image: "../../images/acid-20.jpg", title: "Daylight Constellation / 白日见星", meta: "Oil, mixed media and chemical reaction on brass · 196 × 96 cm × 2 panels · 2026", tags: ["figure", "terrain", "myth"], span: 7, lift: 0 },
+            { image: "../../images/acid-19.jpg", title: "溪山美哉 / Since You Came", meta: "Oil & chemical reaction on brass · 96 × 96 cm · 2026", exhibition: "IN THE FOREST · Group Exhibition · 20 September–20 October 2026 · Chun Art Museum, 2nd Floor, No. 655 Fuzhou Road, Huangpu District, Shanghai", tags: ["figure", "terrain"], span: 4, lift: 13 },
+            { image: "../../images/acid-18.jpg", title: "未冷却的孩子 / The Uncooled Child", meta: "Oil & chemical reaction on brass · 96 × 96 cm · 2026", tags: ["figure", "myth"], span: 5, lift: 2 },
+            { image: "../../images/scroll-01.png", title: "Acid Drifted", meta: "Oil & chemical reaction on brass · 610 × 305 mm · 2025", exhibition: "ArtEvol 2026 · A VIEW FROM EVERYWHERE · 03–11 October 2026 · Saatchi Gallery, London", tags: ["terrain", "relic"], span: 6, lift: 11 },
+            { image: "../../images/scroll-02.png", title: "Acid Drifted II", meta: "Oil & chemical reaction on brass · 610 × 305 mm · 2025", exhibition: "ArtEvol 2026 · A VIEW FROM EVERYWHERE · 03–11 October 2026 · Saatchi Gallery, London", tags: ["terrain", "relic"], span: 5, lift: 0 },
+            { image: "../../images/acid-17.png", title: "Depressive Hedonia II", meta: "Oil & chemical reaction on polished brass · 1000 × 1000 mm · 2026", tags: ["figure", "myth"], span: 6, lift: 15 },
+            { image: "../../images/scroll-04.png", title: "One Square Meter of Rivers and Mountains", meta: "Oil & chemical reaction on brass · 1000 × 1000 mm · 2026", tags: ["terrain", "myth"], span: 7, lift: 3 },
+            { image: "../../images/acid-05.png", title: "Depressive Hedonia", meta: "Oil & chemical reaction on brass · 800 × 1000 mm · 2026", tags: ["figure"], span: 4, lift: 17 },
+            { image: "../../images/acid-06.png", title: "Acid Drifted: the Witness of Fairy", meta: "Oil & chemical reaction on brass · 310 × 310 mm · 2026", tags: ["figure", "myth"], span: 3, lift: 0 },
+            { image: "../../images/acid-09.png", title: "The Moirai", meta: "Oil & chemical reaction on brass · 500 × 800 mm · 2026", tags: ["figure", "myth"], span: 5, lift: 9 },
+            { image: "../../images/acid-12.png", title: "Hound in Glasgow", meta: "Oil & chemical reaction on brass · 800 × 500 mm · 2026", tags: ["figure", "terrain"], span: 6, lift: 0 },
+            { image: "../../images/acid-10.png", title: "The Ghost of my life", meta: "Oil & chemical reaction on brass · 400 × 500 mm · 2026", tags: ["figure", "relic"], span: 4, lift: 15 },
+            { image: "../../images/acid-11.png", title: "Relic", meta: "Oil & chemical reaction on brass · 400 × 500 mm · 2026", tags: ["relic"], span: 4, lift: 1 },
+            { image: "../../images/scroll-03.png", title: "Acid Drifted·Alienation", meta: "Oil & chemical reaction on brass · 300 × 300 mm · 2025", tags: ["relic"], span: 3, lift: 12 },
+            { image: "../../images/acid-07.png", title: "Acid Drifted·Relic", meta: "Oil & chemical reaction on brass · 310 × 310 mm · 2025", tags: ["relic"], span: 4, lift: 0 },
+            { image: "../../images/acid-13.png", title: "Loss", meta: "Oil & chemical reaction on copper · 320 × 320 mm · 2025", tags: ["relic"], span: 5, lift: 13 },
+            { image: "../../images/acid-14.png", title: "Drifted Memo", meta: "Oil & chemical reaction on brass · 310 × 310 mm · 2025", tags: ["relic"], span: 3, lift: 3 },
+            { image: "../../images/acid-15.png", title: "Pray", meta: "Oil & chemical reaction on brass · 310 × 310 mm · 2025", tags: ["relic", "myth"], span: 4, lift: 16 },
+            { image: "../../images/acid-16.png", title: "Guardian", meta: "Oil & chemical reaction on brass · 310 × 310 mm · 2025", tags: ["relic", "myth"], span: 4, lift: 0 },
+            { image: "../../images/acid-08.png", title: "Acid Drifted", meta: "Oil & chemical reaction on brass · 310 × 310 mm · 2026", tags: ["relic"], span: 3, lift: 14 }
+        ];
+
+        const field = document.querySelector("#field");
+        const count = document.querySelector(".archive-count");
+        const reader = document.querySelector("#reader");
+        const readerImage = reader.querySelector(".reader__image");
+        const readerTitle = reader.querySelector(".reader__title");
+        const readerMeta = reader.querySelector(".reader__meta");
+        const readerExhibition = reader.querySelector(".reader__exhibition");
+        const readerTags = reader.querySelector(".reader__tags");
+        const readerCounter = reader.querySelector(".reader__counter");
+        let activeFilter = "all";
+        let visibleWorks = works.slice();
+        let activeIndex = 0;
+
+        function makeSheets() {
+            field.innerHTML = "";
+            works.forEach((work, index) => {
+                const sheet = document.createElement("button");
+                sheet.type = "button";
+                sheet.className = "sheet";
+                sheet.dataset.index = index;
+                sheet.dataset.tags = work.tags.join(" ");
+                sheet.style.setProperty("--span", work.span);
+                sheet.style.setProperty("--lift", work.lift + "rem");
+                sheet.innerHTML = `
+                    <span class="sheet__image-wrap">
+                        <img src="${work.image}" alt="${work.title}" loading="lazy">
+                        <span class="sheet__number">${String(index + 1).padStart(2, "0")}</span>
+                    </span>
+                    <span class="sheet__caption"><span>${work.title}</span><span>${work.meta.split(" · ").at(-1)}</span></span>
+                `;
+                sheet.addEventListener("click", () => openReader(work));
+                field.appendChild(sheet);
+            });
+            applyFilter();
+        }
+
+        function applyFilter() {
+            visibleWorks = works.filter(work => activeFilter === "all" || work.tags.includes(activeFilter));
+            document.querySelectorAll(".sheet").forEach(sheet => {
+                const work = works[Number(sheet.dataset.index)];
+                sheet.hidden = !visibleWorks.includes(work);
+            });
+            count.textContent = `${String(visibleWorks.length).padStart(2, "0")} fragments`;
+        }
+
+        function openReader(work) {
+            activeIndex = visibleWorks.indexOf(work);
+            updateReader();
+            reader.showModal();
+        }
+
+        function updateReader() {
+            const work = visibleWorks[activeIndex];
+            readerImage.src = work.image;
+            readerImage.alt = work.title;
+            readerTitle.textContent = work.title;
+            readerMeta.textContent = work.meta;
+            readerExhibition.innerHTML = work.exhibition
+                ? `<strong>Selected Exhibition</strong>${work.exhibition}`
+                : "";
+            readerExhibition.classList.toggle("is-visible", Boolean(work.exhibition));
+            readerCounter.textContent = `${String(activeIndex + 1).padStart(2, "0")} / ${String(visibleWorks.length).padStart(2, "0")}`;
+            readerTags.innerHTML = work.tags.map(tag => `<span class="reader__tag">${tag}</span>`).join("");
+        }
+
+        function moveReader(direction) {
+            activeIndex = (activeIndex + direction + visibleWorks.length) % visibleWorks.length;
+            updateReader();
+        }
+
+        document.querySelectorAll(".filter").forEach(button => {
+            button.addEventListener("click", () => {
+                activeFilter = button.dataset.filter;
+                document.querySelectorAll(".filter").forEach(item => item.classList.toggle("is-active", item === button));
+                applyFilter();
+            });
+        });
+
+        document.querySelectorAll("[data-mode]").forEach(button => {
+            button.addEventListener("click", () => {
+                const isIndex = button.dataset.mode === "index";
+                document.body.classList.toggle("is-index", isIndex);
+                document.querySelectorAll("[data-mode]").forEach(item => item.classList.toggle("is-active", item === button));
+            });
+        });
+
+        reader.querySelector(".reader__close").addEventListener("click", () => reader.close());
+        reader.querySelector('[data-reader-nav="previous"]').addEventListener("click", () => moveReader(-1));
+        reader.querySelector('[data-reader-nav="next"]').addEventListener("click", () => moveReader(1));
+        reader.addEventListener("click", event => { if (event.target === reader) reader.close(); });
+        window.addEventListener("keydown", event => {
+            if (!reader.open) return;
+            if (event.key === "ArrowLeft") moveReader(-1);
+            if (event.key === "ArrowRight") moveReader(1);
+        });
+
+        makeSheets();
+    </script>
+</body>
+</html>
