@@ -6,9 +6,11 @@
     <title>Sparro Chen | Contemporary Art Practice</title>
     <style>
         :root {
-            --bg-color: #fdfdfd;
-            --text-color: #111111;
-            --muted-color: #888888;
+            --bg-color: #11110F;
+            --surface-color: #181816;
+            --text-color: #E8E4DC;
+            --muted-color: #99958D;
+            --line-color: rgba(232, 228, 220, 0.18);
             --safe-top: env(safe-area-inset-top, 0px);
             --safe-right: env(safe-area-inset-right, 0px);
             --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -29,7 +31,7 @@
             align-items: flex-start;
             flex-wrap: wrap;
             gap: 1rem 2rem;
-            border-bottom: 1px solid #eeeeee;
+            border-bottom: 1px solid var(--line-color);
         }
         .header__brand {
             min-width: 0;
@@ -96,7 +98,7 @@
                 flex-wrap: wrap;
                 gap: 0.5rem 1.1rem;
                 padding-top: 1rem;
-                border-top: 1px solid #eeeeee;
+                border-top: 1px solid var(--line-color);
             }
             nav a {
                 margin-left: 0;
@@ -114,7 +116,7 @@
             width: 100%;
             margin: 0;
             padding: 0;
-            border-bottom: 1px solid #eeeeee;
+            border-bottom: 1px solid var(--line-color);
             overflow: hidden;
             aspect-ratio: 3 / 4;
             max-height: min(78vh, 820px);
@@ -176,7 +178,7 @@
             max-width: 36rem;
             margin: 0 auto;
             padding: 2.75rem max(5%, var(--safe-left)) 2.5rem max(5%, var(--safe-right));
-            border-bottom: 1px solid #eeeeee;
+            border-bottom: 1px solid var(--line-color);
         }
         .hero-intro__lead {
             margin: 0 0 1.35rem;
@@ -203,7 +205,7 @@
         .scroll-gallery {
             overflow: hidden;
             width: 100%;
-            border-bottom: 1px solid #eeeeee;
+            border-bottom: 1px solid var(--line-color);
             cursor: grab;
             touch-action: none;
             user-select: none;
@@ -248,7 +250,7 @@
             width: 100%;
             margin-top: auto;
             padding: 1rem;
-            background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.55) 70%, transparent 100%);
+            background: linear-gradient(to top, rgba(17, 17, 15, 0.96) 0%, rgba(17, 17, 15, 0.62) 70%, transparent 100%);
         }
         @media (prefers-reduced-motion: reduce) {
             .scroll-gallery__track {
@@ -368,7 +370,7 @@
         .project-card {
             position: relative;
             overflow: hidden;
-            background-color: #f4f4f4;
+            background-color: var(--surface-color);
             aspect-ratio: 4 / 3;
             display: flex;
             flex-direction: column;
@@ -527,7 +529,7 @@
         </section>
 
         <section id="works">
-            <h2 style="font-size: 1rem; text-transform: uppercase; border-bottom: 1px solid #111; padding-bottom: 0.5rem; margin-bottom: 2rem;">Selected Works</h2>
+            <h2 style="font-size: 1rem; text-transform: uppercase; border-bottom: 1px solid var(--line-color); padding-bottom: 0.5rem; margin-bottom: 2rem;">Selected Works</h2>
             <div class="grid">
                 <a href="works/synthetic-pantheon/" class="project-card">
                     <img class="project-card__cover" src="images/synthetic-pantheon-series.png" alt="">
@@ -622,5 +624,6 @@
         }, 800);
     })();
     </script>
+    <script src="js/theme-toggle.js"></script>
 </body>
 </html>
